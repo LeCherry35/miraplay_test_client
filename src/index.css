@@ -1,3 +1,30 @@
+@font-face {
+  font-family: 'Neue Machina';
+  src: url(./fonts/NeueMachina-Ultrabold.woff);
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Neue Machina';
+  src: url(./fonts/NeueMachina-Light.woff);
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: 'Neue Machina';
+  src: url(./fonts/NeueMachina-Regular.woff);
+  font-weight: 300;
+}
+
+
+:root {
+  --main-green-color: #3f9c14;
+  --main-text-color: #eaeaea;
+  --second-text-color: #afafaf;
+  --main-bg-color: #181818;
+  --error-color: #df1332;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

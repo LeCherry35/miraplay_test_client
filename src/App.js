@@ -1,23 +1,23 @@
-import logo from './logo.svg';
+import { useSelector } from 'react-redux';
 import './App.css';
+import Auth from './compnents/Auth/Auth';
+import Header from './compnents/Header/Header';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App() {
+
+  const { isPanelDisplayed } = useSelector(state => state.authPanel)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <BrowserRouter>
+      <div className='bg'></div>
+      <Header />
+      {isPanelDisplayed && <Auth/>}
+      <Routes>
+      </Routes>
+      
+
+    </BrowserRouter>
     </div>
   );
 }
