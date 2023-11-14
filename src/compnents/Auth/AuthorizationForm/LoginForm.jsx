@@ -1,13 +1,40 @@
 import React, { useState } from 'react'
 import style from './AuthorizationForm.module.css'
 import { useSelector } from 'react-redux'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import AuthService from '../../../services/authService'
+import $api from '../../../http/index'
 
 const LoginForm = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const {formDisplayed} = useSelector(state => state.authPanel)
+  // const { data, isLoading, error } = useQuery({
+  //   queryFn: registration
+  // })
 
+  const regMutation = useMutation({
+    mutationFn:({email, password}) => {
+      return $api.post('/auth/registration', {email, password})
+    }
+  })
+  const logMutation = useMutation({
+    mutationFn:({email, password}) => {
+      return $api.post('/auth/login', {email, password})
+    }
+  })
+
+  // const registration = async () => {
+  //   try {
+  //     const response =  await $api.post('/auth/registration', {email, password})
+  //     // AuthService.registration(email, password)
+  //     console.log('rrr', response);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  //     }
+  
   return (
     <form className={style.container}>
       <h3 className={style.title}>
@@ -26,11 +53,23 @@ const LoginForm = () => {
         onChange={e => setPassword(e.target.value)}
       ></input>
       </label>
-      <button className={style.submitButton}
+      {formDisplayed === 'login' 
+      ?  <button 
+        className={style.submitButton}
         onClick={e => {
           e.preventDefault()
+          logMutation.mutate({email, password})
         }}
-      >{formDisplayed === 'login' ? 'ВХІД' : 'РЕЄСТРАЦІЯ'}</button>
+      >ВХІД</button>
+      : <button 
+        className={style.submitButton}
+        onClick={e => {
+          e.preventDefault()
+          regMutation.mutate({email, password})
+        }}
+      >РЕЄСТРАЦІЯ</button>
+      }
+      
 
     </form>
   )
