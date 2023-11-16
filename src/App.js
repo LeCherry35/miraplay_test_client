@@ -4,21 +4,35 @@ import Auth from './compnents/Auth/Auth';
 import Header from './compnents/Header/Header';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AllGames from './compnents/AllGames/AllGames'
-import { useMutation, useQuery } from '@tanstack/react-query';
-import allGamesService from './services/allGamesService';
-import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import authService from './services/authService';
+import Loader from './compnents/Loader/Loader';
 
 
 function App() {
 
-  
+  const dispatch = useDispatch()
   const { isPanelDisplayed } = useSelector(state => state.authPanel)
+
+  const checkAuth = async () => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      const {data} = await authService.checkToken(token)
+      dispatch({type: 'SET_USER', payload: data})
+      return data
+    }
+  }
+
+  const {data, isLoading} = useQuery({
+    queryKey: 'auth',
+    queryFn: checkAuth
+  })
   return (
 
     <div className="App">
     <BrowserRouter>
       {/* <div className='bg'></div> */}
+      {isLoading && <Loader/>}
       <Header />
       {isPanelDisplayed && <Auth/>}
       <Routes>

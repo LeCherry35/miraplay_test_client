@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './AuthorizationForm.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -11,6 +11,12 @@ const LoginForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const {formDisplayed} = useSelector(state => state.authPanel)
+
+  useEffect(()=> {
+
+  })
+
+  
 
   const {data: registrationData, mutate:registrationMutate} = useMutation({
     mutationFn: authService.registration

@@ -4,7 +4,7 @@
     margin: 0 auto;
     width: 1180px;
 
-    min-height: 500px;
+    min-height: 100vh;
     padding-bottom: 50px;
     box-sizing: border-box;
     font-family: 'Neue Machina'
@@ -51,16 +51,22 @@
     background-color: var(--main-green-color);
 }
 
-.dataSort {
+.dataSortContainer {
     display:flex;
 }
-.dataSort > div {
+.dataSortContainer > div {
     font-size: 14px;
     font-weight: 300;
     line-height: 143%;
     text-align: center;
     color: var(--second-text-color);
     padding: 10px;
+    height: fit-content;
+}
+
+.dataSort:hover {
+    border: 1px solid #454545;
+    border-radius: 10px;
 }
 
 .gamesList {

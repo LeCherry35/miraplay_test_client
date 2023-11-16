@@ -1,5 +1,7 @@
 .App {
   background-color: rgba(0,0,0,.9);
+  min-height: 100vh;
+
 }
 .bg {
   background-image: url(./images/background.png);

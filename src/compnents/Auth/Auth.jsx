@@ -2,14 +2,9 @@ import React, { useState } from 'react'
 import style from './Auth.module.css'
 import LoginForm from './AuthorizationForm/LoginForm'
 import { useDispatch, useSelector } from 'react-redux'
-import authService from '../../services/authService'
-import { useMutation, useQuery } from '@tanstack/react-query'
 
 const Auth = () => {
-    const { data, isSuccess: authIsSuccess, isLoading, isError, error } = useQuery({
-        queryFn: authService.checkToken(localStorage.getItem('token')),
-        queryKey: ['auth']
-      })
+    
     
     const dispatch = useDispatch()
     const {isAuth} = useSelector(state => state.auth)
