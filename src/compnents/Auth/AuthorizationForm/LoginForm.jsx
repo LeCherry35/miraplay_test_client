@@ -1,6 +1,6 @@
-import React, {  useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import style from './AuthorizationForm.module.css'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch} from 'react-redux'
 import { useMutation } from '@tanstack/react-query'
 import authService from '../../../services/authService'
 import Notification from '../../Notification/Notification'
@@ -19,8 +19,9 @@ const LoginForm = ({form}) => {
   }
   const login = async (email, password) => {
     try {
-      const data = await authService.login(email, password)
-
+      const {data} = await authService.login(email, password)
+      
+      return data
     } catch(e) {
       console.log('rr',e);
       return new Error( e.message);
@@ -37,10 +38,10 @@ const LoginForm = ({form}) => {
     mutationKey: ['login']
   })
   
-  if (loginData?.data?.token) {
-    dispatch({type:'SET_USER', payload: loginData})
+  if (loginData?.token) {
+    dispatch({type:'SET_USER', payload: loginData.user})
     dispatch({type:'TOGGLE_AUTH_DISPLAY'})
-    localStorage.setItem('token', loginData.data.token)
+    localStorage.setItem('token', loginData.token)
     navigate('/allGames')
   }
 
