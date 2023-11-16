@@ -1,11 +1,13 @@
 const initialState = {
-    games:[]
+    games:[],
+    gamesListLength: 0
 }
 
-const gamesReducer = (state = initialState, action) => {
+export const gamesReducer = (state = initialState, action) => {
     switch(action.type) {
         case 'SET_GAMES':
-            return {...state, games: action.payload}
+            const {games, gamesListLength} = action.payload
+            return {...state, games, gamesListLength}
         default :
             return state
     }

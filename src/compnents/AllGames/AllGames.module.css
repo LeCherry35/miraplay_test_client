@@ -1,11 +1,13 @@
 .container {
-    background-color: rgba(0,0,0,.4);
-    width: 100%;
-    padding: 200px;
+    
+    /* width: 100%; */
     margin: 0 auto;
+    width: 1180px;
+
     min-height: 500px;
     padding-bottom: 50px;
-    width: 1170px;
+    box-sizing: border-box;
+    font-family: 'Neue Machina'
 }
 .title {
     color: var(--main-text-color);
@@ -14,6 +16,11 @@
     line-height: 100%;
     /* margin-bottom: 42px; */
     text-transform: uppercase;
+    padding-top: 200px;
+}
+.filterContainer {
+    display: flex;
+    justify-content: space-between;
 }
 .genresItemList {
     display: flex;
@@ -40,11 +47,50 @@
     text-transform: uppercase;
 }
 
+.selectedGenre {
+    background-color: var(--main-green-color);
+}
+
+.dataSort {
+    display:flex;
+}
+.dataSort > div {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 143%;
+    text-align: center;
+    color: var(--second-text-color);
+    padding: 10px;
+}
+
 .gamesList {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
     margin-top: 65px;
-    width: 100%;
+    /* width: 1180px; */
+
+}
+.moreButton {
+    background-color: #242424;
+    border: 1px solid #454545;
+    border-radius: 20px;
+    color: var(--main-text-color);
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    font-weight: 800;
+    height: 78px;
+    line-height: 143%;
+    margin: 41px auto 0;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all .2s ease;
+    width: 370px;
+}
+
+.moreButton:hover {
+    background-color: var(--main-green-color);
+    transition: all .2s ease;
 }

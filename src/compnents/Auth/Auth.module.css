@@ -40,3 +40,20 @@
     padding-top: 10px;
     text-transform: uppercase;
 }
+.submitButton {
+    background: var(--main-green-color);
+    background-position: 0;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 20px 40px rgba(63,156,20,.3);
+    color: var(--main-text-color);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    height: 70px;
+    line-height: 143%;
+    transition: all .2s ease-in-out;
+    transition: background .3s ease-in-out;
+    width: 370px;
+    margin: 200px auto;
+}

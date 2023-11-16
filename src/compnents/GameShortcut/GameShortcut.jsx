@@ -3,16 +3,16 @@ import style from './GameShortcut.module.css'
 
 
 const GameShortcut = ({game}) => {
-  console.log('(((', game);
+  const {gameDescription, commonGameName} = game
   return (
     <li className={style.container}>
-    <img className={style.image} src={game.gameImage} alt={game.commonGameName}/>
+    <img className={style.image} src={game.gameImage} alt={commonGameName}/>
     <div className={style.bottom}>
         <h4 className={style.title}>
-            {game.commonGameName}
+            {commonGameName}
         </h4>
         <p className={style.description}>
-            {game.gameDescription}
+            {gameDescription.length > 120 ? gameDescription.substring(0,120) + '...' : gameDescription}
         </p>
     </div>
     </li>
