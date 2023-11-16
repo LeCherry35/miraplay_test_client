@@ -10,10 +10,10 @@ import { useEffect } from 'react';
 
 
 function App() {
-  const { isError, error } = useSelector(state => state.error)
-  useEffect (() => {
-    console.log('iss', isError);
-  },[isError])
+  // const { isError, error } = useSelector(state => state.error)
+  // useEffect (() => {
+  //   console.log('iss', isError);
+  // },[isError])
 
   
   return (
@@ -21,7 +21,7 @@ function App() {
     <div className="App">
     <BrowserRouter>
       {/* <div className='bg'></div> */}
-      {isError && <Notification text={error} mode='error'/>}
+      {/* {isError && <Notification text={error} mode='error'/>} */}
       
       <Header />
       <Routes>
