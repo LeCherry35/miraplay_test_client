@@ -57,3 +57,10 @@
     width: 370px;
     margin: 200px auto;
 }
+
+.submitButton:hover {
+    border: none;
+    box-shadow: 0 0 45px rgba(63,156,20,.3);
+    outline: none;
+    transition: all .2s ease-in-out;
+}

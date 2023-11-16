@@ -16,14 +16,17 @@ function App() {
 
   const checkAuth = async () => {
     const token = localStorage.getItem('token')
-    if (token) {
-      const {data} = await authService.checkToken(token)
-      dispatch({type: 'SET_USER', payload: data})
-      return data
+    if (!token) {
+      // throw new Error('User is not authorized')
+      return
     }
+    const {data} = await authService.checkToken(token)
+    dispatch({type: 'SET_USER', payload: data})
+    return data
+    
   }
 
-  const {data, isLoading} = useQuery({
+  const { isLoading } = useQuery({
     queryKey: 'auth',
     queryFn: checkAuth
   })
@@ -32,6 +35,7 @@ function App() {
     <div className="App">
     <BrowserRouter>
       {/* <div className='bg'></div> */}
+      {/* {isError && <Notification text={error.message}/>} */}
       {isLoading && <Loader/>}
       <Header />
       {isPanelDisplayed && <Auth/>}

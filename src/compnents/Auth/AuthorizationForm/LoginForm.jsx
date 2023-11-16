@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import style from './AuthorizationForm.module.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import authService from '../../../services/authService'
+import Notification from '../../Notification/Notification'
+import Loader from '../../Loader/Loader'
+import { useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {
 
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const [email, setEmail] = useState('')
@@ -18,20 +22,25 @@ const LoginForm = () => {
 
   
 
-  const {data: registrationData, mutate:registrationMutate} = useMutation({
+  const {mutate:registrationMutate, isLoading: registrationIsLoading, isError: registrationIsError, error: registrationError} = useMutation({
     mutationFn: authService.registration
   })
-  const { data: loginData, mutate: loginMutate } = useMutation({
+  const { data: loginData, mutate: loginMutate, isLoading: loginIsLoading, isError: loginIsError, error: loginError} = useMutation({
     mutationFn: authService.login
   })
   
   if (loginData) {
     dispatch({type:'SET_USER', payload: loginData})
+    dispatch({type:'TOGGLE_AUTH_DISPLAY'})
     localStorage.setItem('token', loginData.data.token)
+    navigate('/allGames')
   }
 
   return (
     <form className={style.container}>
+    {(registrationIsLoading || loginIsLoading) && <Loader />}
+    {registrationIsError && <Notification text={registrationError.response.data.message} />}
+    {loginIsError && <Notification text={loginError.response.data.message} />}
       <h3 className={style.title}>
       Спробуй нові відчуття
       </h3>
