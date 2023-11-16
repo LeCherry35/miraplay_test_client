@@ -18,7 +18,7 @@ function App() {
     const token = localStorage.getItem('token')
     if (!token) {
       // throw new Error('User is not authorized')
-      return
+      return null
     }
     const {data} = await authService.checkToken(token)
     dispatch({type: 'SET_USER', payload: data})
@@ -27,7 +27,7 @@ function App() {
   }
 
   const { isLoading } = useQuery({
-    queryKey: 'auth',
+    queryKey: ['auth'],
     queryFn: checkAuth
   })
   return (

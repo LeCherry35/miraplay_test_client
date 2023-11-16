@@ -1,10 +1,11 @@
 .container {
-    position: absolute;
+    position: fixed;
     top: 0;
     z-index: 10;
     height: 100vh;
     width: 100%;
     display: flex;
+    /* animation: slideIn 2s linear infinite; */
 }
 .backdrop {
     width: 50%;
@@ -39,6 +40,16 @@
     line-height: 133%;
     padding-top: 10px;
     text-transform: uppercase;
+    position: relative;
+}
+.navButton_active::after {
+    background-color: var(--main-green-color);
+    bottom: 0;
+    content: "";
+    height: 4px;
+    left: 0;
+    position: absolute;
+    width: 100%;
 }
 .submitButton {
     background: var(--main-green-color);
@@ -64,3 +75,12 @@
     outline: none;
     transition: all .2s ease-in-out;
 }
+
+/* @keyframes fadeIn {
+from { 
+    opacity: 0;
+}
+to {
+    opacity: 1;
+}
+} */

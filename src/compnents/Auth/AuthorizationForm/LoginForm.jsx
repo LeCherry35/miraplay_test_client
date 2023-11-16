@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import style from './AuthorizationForm.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { useMutation } from '@tanstack/react-query'
@@ -7,29 +7,37 @@ import Notification from '../../Notification/Notification'
 import Loader from '../../Loader/Loader'
 import { useNavigate } from 'react-router-dom'
 
-const LoginForm = () => {
-
+const LoginForm = ({form}) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const {formDisplayed} = useSelector(state => state.authPanel)
 
-  useEffect(()=> {
+  const registration = async (email, password) => {
+      const data = await authService.registration(email, password)
+  }
+  const login = async (email, password) => {
+    try {
+      const data = await authService.login(email, password)
 
-  })
-
+    } catch(e) {
+      console.log('rr',e);
+      return new Error( e.message);
+    }
+  }
   
 
   const {mutate:registrationMutate, isLoading: registrationIsLoading, isError: registrationIsError, error: registrationError} = useMutation({
-    mutationFn: authService.registration
+    mutationFn: registration,
+    mutationKey: ['registation']
   })
   const { data: loginData, mutate: loginMutate, isLoading: loginIsLoading, isError: loginIsError, error: loginError} = useMutation({
-    mutationFn: authService.login
+    mutationFn: login,
+    mutationKey: ['login']
   })
   
-  if (loginData) {
+  if (loginData?.data?.token) {
     dispatch({type:'SET_USER', payload: loginData})
     dispatch({type:'TOGGLE_AUTH_DISPLAY'})
     localStorage.setItem('token', loginData.data.token)
@@ -39,12 +47,12 @@ const LoginForm = () => {
   return (
     <form className={style.container}>
     {(registrationIsLoading || loginIsLoading) && <Loader />}
-    {registrationIsError && <Notification text={registrationError.response.data.message} />}
+    {registrationIsError && <Notification text={registrationError?.response?.data?.message } />}
     {loginIsError && <Notification text={loginError.response.data.message} />}
       <h3 className={style.title}>
       Спробуй нові відчуття
       </h3>
-      <p className={style.subTitle}>{formDisplayed === 'login' ? 'Увійди' : 'Зареєструйся'}, щоб грати на максималках у свої улюблені ігри</p>
+      <p className={style.subTitle}>{form === 'log' ? 'Увійди' : 'Зареєструйся'}, щоб грати на максималках у свої улюблені ігри</p>
       <label className={style.label}>
       введіть ваш email:
       <input className={style.input} type="text" name="email" placeholder="youremail@miraplay.com" value={email} 
@@ -57,7 +65,7 @@ const LoginForm = () => {
         onChange={e => setPassword(e.target.value)}
       ></input>
       </label>
-      {formDisplayed === 'login' 
+      {form === 'log' 
       ?  <button 
         className={style.submitButton}
         onClick={e => {
