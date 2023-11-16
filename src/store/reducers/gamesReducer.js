@@ -5,8 +5,9 @@ const initialState = {
 
 export const gamesReducer = (state = initialState, action) => {
     switch(action.type) {
-        case 'SET_GAMES':
-            const {games, gamesListLength} = action.payload
+        case 'ADD_GAMES':
+            const {games, gamesListLength} = action.payload 
+            
             return {...state, games, gamesListLength}
         default :
             return state

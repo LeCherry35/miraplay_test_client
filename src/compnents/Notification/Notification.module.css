@@ -39,6 +39,9 @@
 .errorIcon {
     background-color: red
 }
+.successIcon {
+  background-color: var(--main-green-color);
+}
 
 .messageText {
     color: var(--second-text-color);
@@ -48,16 +51,16 @@
 }
 
 @keyframes occurAndFade {
-    0% { 
-      transform: translateX(-50%) scale(0);
-    }
-    5% {
-      transform: translateX(-50%) scale(1);
-    }
-    95% {
-      transform: translateX(-50%) scale(1);
-    }
-    100% {
-      transform: translateX(-50%) scale(0);
-    }
+  0% { 
+    transform: translateX(-50%) scale(0);
   }
+  5% {
+    transform: translateX(-50%) scale(1);
+  }
+  95% {
+    transform: translateX(-50%) scale(1);
+  }
+  100% {
+    transform: translateX(-50%) scale(0);
+  }
+}

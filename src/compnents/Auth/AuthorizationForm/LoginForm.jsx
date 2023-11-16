@@ -7,7 +7,7 @@ import Notification from '../../Notification/Notification'
 import Loader from '../../Loader/Loader'
 import { useNavigate } from 'react-router-dom'
 
-const LoginForm = ({form}) => {
+const LoginForm = ({form, setForm}) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -16,20 +16,18 @@ const LoginForm = ({form}) => {
 
   const registration = async (email, password) => {
       const data = await authService.registration(email, password)
+      setForm('log')
   }
   const login = async (email, password) => {
-    try {
-      const {data} = await authService.login(email, password)
-      
-      return data
-    } catch(e) {
-      console.log('rr',e);
-      return new Error( e.message);
-    }
+    
+      const response = await authService.login(email, password)
+      // if (!response.data)
+      return response.data
+    
   }
   
 
-  const {mutate:registrationMutate, isLoading: registrationIsLoading, isError: registrationIsError, error: registrationError} = useMutation({
+  const {mutate:registrationMutate, isLoading: registrationIsLoading, isError: registrationIsError, error: registrationError, isSuccess: registationIsSuccess} = useMutation({
     mutationFn: registration,
     mutationKey: ['registation']
   })
@@ -42,14 +40,15 @@ const LoginForm = ({form}) => {
     dispatch({type:'SET_USER', payload: loginData.user})
     dispatch({type:'TOGGLE_AUTH_DISPLAY'})
     localStorage.setItem('token', loginData.token)
-    navigate('/allGames')
+    navigate('/')
   }
 
   return (
     <form className={style.container}>
     {(registrationIsLoading || loginIsLoading) && <Loader />}
-    {registrationIsError && <Notification text={registrationError?.response?.data?.message } />}
-    {loginIsError && <Notification text={loginError.response.data.message} />}
+    {registrationIsError && <Notification text={registrationError?.response?.data?.message } mode='error' />}
+    {loginIsError && <Notification text={loginError.response.data.message}  mode='error'/>}
+    {registationIsSuccess && <Notification text='Козистувач успішно зареєстрований, увійдіть для продовження' mode='success'/>}
       <h3 className={style.title}>
       Спробуй нові відчуття
       </h3>

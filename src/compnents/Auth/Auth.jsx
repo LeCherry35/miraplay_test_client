@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import style from './Auth.module.css'
 import LoginForm from './AuthorizationForm/LoginForm'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const Auth = () => {
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const { isAuth} = useSelector(state => state.auth)
     const [formDisplayed, setFormDisplayed] = useState('reg')
@@ -18,7 +20,7 @@ const Auth = () => {
 
     return (
         <div className={style.container}>
-            <div className={style.backdrop} onClick={() => dispatch({type:'TOGGLE_AUTH_DISPLAY'})}></div>
+            <div className={style.backdrop} onClick={() => navigate('/')}></div>
             <div className={style.content}>
             {isAuth
             ?   <><div className={style.navPanel}></div>
@@ -29,7 +31,7 @@ const Auth = () => {
                     <button className={formDisplayed === 'reg' ? `${style.navButton_active} ${style.navButton}` : style.navButton} onClick={() => setFormDisplayed('reg')}>РЕЄСТРАЦІЯ</button>
 
                 </div>
-                <LoginForm form={formDisplayed}/>
+                <LoginForm form={formDisplayed} setForm={setFormDisplayed} />
                 </>
             }
             </div>

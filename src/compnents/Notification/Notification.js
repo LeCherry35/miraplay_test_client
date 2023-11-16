@@ -9,7 +9,8 @@ const Notification = (props) => {
 
         e.currentTarget.style.display = 'none'
         }}>
-        <div className={`${style.messageIcon} ${style.errorIcon}`}>!</div>
+        {props.mode === 'error' && <div className={`${style.messageIcon} ${style.errorIcon}`}>!</div>}
+        {props.mode === 'success' && <div className={`${style.messageIcon} ${style.successIcon}`}>{':)'}</div>}
         <div className={style.messageText}>{props.text}</div>
     </div>
   )

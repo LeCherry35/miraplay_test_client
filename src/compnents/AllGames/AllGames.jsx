@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import style from './AllGames.module.css'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import GameShortcut from '../GameShortcut/GameShortcut'
 import { useQuery } from '@tanstack/react-query'
 import allGamesService from '../../services/allGamesService'
@@ -9,23 +9,27 @@ import Notification from '../Notification/Notification'
 
 const AllGames = () => {
     const genres = ["ALL","FREE",  "MOBA", "SHOOTERS", "LAUNCHERS", "MMORPG", "STRATEGY", "FIGHTING", "RACING", "SURVIVAL","ONLINE"]
-    const gamesMinQuantity = 9
+   
 
     const genresItems = useRef()
+    const dispatch = useDispatch()
+
     const [ genreSelected, setGenreSelected ] = useState('FREE')
     const [ isFreshGameFirst, setIsFreshGameFirst] = useState(true)
-    const [ gamesToShow, setGamesToShow] = useState(9)
+    const [ page, setPage] = useState(1)
     const { isAuth } = useSelector(state => state.auth)
+    const { gamesListLength, games } = useSelector(state=> state.games)
 
     const  fetchGames = async () => {
         if(isAuth) {
-            const {data} = await allGamesService.fetchGames(1, genreSelected, isFreshGameFirst, gamesToShow)
+            const {data} = await allGamesService.fetchGames(page, genreSelected, isFreshGameFirst, 9)
+            dispatch({type: 'ADD_GAMES',payload: data})
             return data
         }
     }
     const {data, isLoading} = useQuery({
         queryFn: fetchGames,
-        queryKey: ['games', genreSelected, gamesToShow, isFreshGameFirst, isAuth]
+        queryKey: ['games', genreSelected, page, isFreshGameFirst, isAuth]
     })
 
     // useEffect(()=>{
@@ -34,7 +38,7 @@ const AllGames = () => {
     
   return (
     <div className={style.container}>
-    {!isAuth && <Notification text='Увійдіть для перегляду ігр'/>}
+    {!isAuth && <Notification text='Увійдіть для перегляду ігр'  mode='error'/>}
     {isLoading && <Loader/>}
     <h4 className={style.title}>Всі ігри</h4>
     <div className={style.filterContainer}>
@@ -42,8 +46,7 @@ const AllGames = () => {
             {genres.map(genre => (
                 <div className={genre === genreSelected ? style.genresItemSel : style.genresItem} onClick={(e)=> {
                     setGenreSelected(e.target.innerHTML)
-                    // // genresItems.current.childNodes.forEach(genreItem => genreItem.classList.remove(style.selectedGenre))
-                    // e.target.classList.add(style.selectedGenre)
+                    setPage(1)
                     }}>
                     {genre}
                 </div>
@@ -56,9 +59,11 @@ const AllGames = () => {
     </div>
 
     <ul className={style.gamesList}>
-        {data?.games?.map(game => <GameShortcut game={game}/>)}
+        {games?.map(game => {
+            return <GameShortcut game={game}/>
+            })}
     </ul>
-    {gamesToShow < data?.gamesListLength && <button className={style.moreButton} onClick={() => setGamesToShow(q => q + gamesMinQuantity)}>Показати ще</button>}
+    {gamesListLength > games.length && <button className={style.moreButton} onClick={() => setPage(page=> ++page)}>Показати ще</button>}
     </div>
   )
 }

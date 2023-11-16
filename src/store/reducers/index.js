@@ -1,10 +1,10 @@
 import {combineReducers} from 'redux'
-import { authPanelReducer } from './authPanelReducer'
 import { gamesReducer } from './gamesReducer'
 import { authReducer } from './authReducer'
+import { errorReducer } from './errorReducer'
 
 export const rootReducer = combineReducers({
-    authPanel: authPanelReducer,
     auth: authReducer,
-    games: gamesReducer
+    games: gamesReducer,
+    // error: errorReducer
 })
