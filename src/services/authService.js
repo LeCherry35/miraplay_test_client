@@ -13,7 +13,7 @@ class AuthService {
         return $api.post('/auth/checkToken', {token})
     }
 
-    get isAuth(){
+    get isToken(){
         return Boolean(localStorage.getItem('token'))
     }
 

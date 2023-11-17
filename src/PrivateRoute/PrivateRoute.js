@@ -31,7 +31,7 @@ const checkAuth = async () => {
 
   if (isLoading) return <Loader />
 
-  return authService.isAuth ? <>{children}</> : <Navigate to='/auth' />
+  return authService.isToken ? <>{children}</> : <Navigate to='/auth' />
 }
 
 export default PrivateRoute

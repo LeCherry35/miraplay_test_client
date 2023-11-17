@@ -23,7 +23,7 @@ const Auth = () => {
         <div className={style.container}>
             <div className={style.backdrop} onClick={() => navigate('/')}></div>
             <div className={style.content}>
-            {authService.isAuth
+            {authService.isToken
             ?   <><div className={style.navPanel}></div>
                 <button className={style.submitButton} onClick={logout}>ВИХІД</button>
                 </>

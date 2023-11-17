@@ -20,7 +20,7 @@ const AllGames = () => {
     const { gamesListLength, games } = useSelector(state => state.games)
 
     const  fetchGames = async () => {
-        if(authService.isAuth) {
+        if(authService.isToken) {
             const {data} = await allGamesService.fetchGames(page, genreSelected, isFreshGameFirst, 9)
             dispatch({type: 'ADD_GAMES',payload: data})
             return data
@@ -28,7 +28,7 @@ const AllGames = () => {
     }
     const {isLoading} = useQuery({
         queryFn: fetchGames,
-        queryKey: ['games', genreSelected, page, isFreshGameFirst, authService.isAuth]
+        queryKey: ['games', genreSelected, page, isFreshGameFirst]
     })
   return (
     <div className={style.container}>
@@ -47,7 +47,14 @@ const AllGames = () => {
         </ul>
         <div className={style.dataSortContainer}>
             <div>Сортувати:</div>
-            <div className={style.dataSort} onClick={()=> setIsFreshGameFirst(is => !is)}>{isFreshGameFirst ? 'спочатку нові' : 'спочатку старі'}</div>
+            <div className={style.dataSort} 
+                onClick={()=> {
+                    setIsFreshGameFirst(is => !is)
+                    setPage(1)
+                }}
+            >
+                {isFreshGameFirst ? 'спочатку нові' : 'спочатку старі'}
+            </div>
         </div>
     </div>
 
