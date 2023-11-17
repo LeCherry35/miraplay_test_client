@@ -13,6 +13,8 @@ const LoginForm = ({form, setForm}) => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
 
   const registration = async (email, password) => {
       await authService.registration(email, password)
@@ -24,8 +26,20 @@ const LoginForm = ({form, setForm}) => {
       localStorage.setItem('token', response.data.token)
       navigate('/')
   }
+  const validate = () => {
+    if (email.trim() === '') {
+      setEmailError('введіть пошту')
+      return false
+    }
+    else setEmailError('')
+    if (password.trim().length < 3 || password.trim().length > 20) {
+      setPasswordError('пароль має бути довжиною 3-20 символів')
+      return false
+    }
+    else setPasswordError('')
+    return true
+  }
   
-
   const {mutate:registrationMutate, isLoading: registrationIsLoading, isError: registrationIsError, error: registrationError, isSuccess: registationIsSuccess} = useMutation({
     mutationFn: registration,
     mutationKey: ['registation']
@@ -49,29 +63,32 @@ const LoginForm = ({form, setForm}) => {
       <p className={style.subTitle}>{form === 'log' ? 'Увійди' : 'Зареєструйся'}, щоб грати на максималках у свої улюблені ігри</p>
       <label className={style.label}>
       введіть ваш email:
-      <input className={style.input} type="text" name="email" placeholder="youremail@miraplay.com" value={email} 
+      <input className={`${style.input} ${emailError && style.inputError}`} type="text" name="email" placeholder="youremail@miraplay.com" value={email} 
         onChange={e => setEmail(e.target.value)}
       ></input>
+      {emailError &&<p className={style.validationError}>{emailError}</p>}
       </label>
       <label className={style.label}>
       введіть ваш пароль:
-      <input className={style.input} type="password" name="password" placeholder="ваш пароль" value={password} 
+      <input className={`${style.input} ${passwordError && style.inputError}`} type="password" name="password" placeholder="ваш пароль" value={password} 
         onChange={e => setPassword(e.target.value)}
       ></input>
+      {passwordError &&<p className={style.validationError}>{passwordError}</p>}
+
       </label>
       {form === 'log' 
       ?  <button 
         className={style.submitButton}
         onClick={e => {
           e.preventDefault()
-          loginMutate({email, password})
+          if (validate()) loginMutate({email, password})
         }}
       >ВХІД</button>
       : <button 
         className={style.submitButton}
         onClick={e => {
           e.preventDefault()
-          registrationMutate({email, password})
+          if (validate()) registrationMutate({email, password})
         }}
       >РЕЄСТРАЦІЯ</button>
       }

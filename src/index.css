@@ -24,6 +24,9 @@
   --main-bg-color: #181818;
   --error-color: #df1332;
 }
+:focus-visible {
+  outline: none;
+}
 
 body {
   margin: 0;
