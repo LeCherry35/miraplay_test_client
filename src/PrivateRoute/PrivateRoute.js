@@ -6,12 +6,11 @@
 import React from 'react'
 import { Navigate} from 'react-router-dom'
 import authService from '../services/authService'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useQuery } from '@tanstack/react-query'
 import Loader from '../compnents/Loader/Loader'
 
 const PrivateRoute = ({ children }) => {
-     const { isAuth } = useSelector(state => state.auth)
      const dispatch = useDispatch()
 
 const checkAuth = async () => {
@@ -32,7 +31,7 @@ const checkAuth = async () => {
 
   if (isLoading) return <Loader />
 
-  return isAuth ? <>{children}</> : <Navigate to='/auth' />
+  return authService.isAuth ? <>{children}</> : <Navigate to='/auth' />
 }
 
 export default PrivateRoute

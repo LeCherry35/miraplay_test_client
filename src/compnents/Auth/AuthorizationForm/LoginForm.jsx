@@ -15,15 +15,14 @@ const LoginForm = ({form, setForm}) => {
   const [password, setPassword] = useState('')
 
   const registration = async (email, password) => {
-      const data = await authService.registration(email, password)
+      await authService.registration(email, password)
       setForm('log')
   }
   const login = async (email, password) => {
-    
       const response = await authService.login(email, password)
-      // if (!response.data)
-      return response.data
-    
+      dispatch({type:'SET_USER', payload: response.data.user})
+      localStorage.setItem('token', response.data.token)
+      navigate('/')
   }
   
 
@@ -31,17 +30,12 @@ const LoginForm = ({form, setForm}) => {
     mutationFn: registration,
     mutationKey: ['registation']
   })
-  const { data: loginData, mutate: loginMutate, isLoading: loginIsLoading, isError: loginIsError, error: loginError} = useMutation({
+  const { mutate: loginMutate, isLoading: loginIsLoading, isError: loginIsError, error: loginError} = useMutation({
     mutationFn: login,
     mutationKey: ['login']
   })
   
-  if (loginData?.token) {
-    dispatch({type:'SET_USER', payload: loginData.user})
-    dispatch({type:'TOGGLE_AUTH_DISPLAY'})
-    localStorage.setItem('token', loginData.token)
-    navigate('/')
-  }
+  
 
   return (
     <form className={style.container}>

@@ -2,8 +2,9 @@
     
     /* width: 100%; */
     margin: 0 auto;
-    width: 1180px;
-
+    min-width: 500px;
+    max-width: 1500px;
+    padding: 40px;
     min-height: 100vh;
     padding-bottom: 50px;
     box-sizing: border-box;
@@ -70,6 +71,8 @@
     display:flex;
     width: 240px;
     justify-content: space-between;
+    z-index: 3;
+    background-size: cover;
 }
 .dataSortContainer > div {
     font-size: 14px;

@@ -13,6 +13,10 @@ class AuthService {
         return $api.post('/auth/checkToken', {token})
     }
 
+    get isAuth(){
+        return Boolean(localStorage.getItem('token'))
+    }
+
 }
 const authService = new AuthService ()
 export default authService 

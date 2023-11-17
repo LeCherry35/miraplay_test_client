@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import style from './Auth.module.css'
 import LoginForm from './AuthorizationForm/LoginForm'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import authService from '../../services/authService'
 
 const Auth = () => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const { isAuth} = useSelector(state => state.auth)
     const [formDisplayed, setFormDisplayed] = useState('reg')
 
     const logout = () => {
         localStorage.removeItem('token')
         dispatch({type:'LOG_OUT'})
+        navigate('/auth')
     }
     
 
@@ -22,7 +23,7 @@ const Auth = () => {
         <div className={style.container}>
             <div className={style.backdrop} onClick={() => navigate('/')}></div>
             <div className={style.content}>
-            {isAuth
+            {authService.isAuth
             ?   <><div className={style.navPanel}></div>
                 <button className={style.submitButton} onClick={logout}>ВИХІД</button>
                 </>
