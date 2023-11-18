@@ -54,7 +54,7 @@ const LoginForm = ({form, setForm}) => {
   return (
     <form className={style.container}>
     {(registrationIsLoading || loginIsLoading) && <Loader />}
-    {registrationIsError && <Notification text={registrationError?.response?.data?.message } mode='error' />}
+    {registrationIsError && <Notification text={registrationError?.response?.data?.message || 'Невідома помилка'} mode='error' />}
     {loginIsError && <Notification text={loginError.response.data.message}  mode='error'/>}
     {registationIsSuccess && <Notification text='Козистувач успішно зареєстрований, увійдіть для продовження' mode='success'/>}
       <h3 className={style.title}>

@@ -9,6 +9,7 @@ import authService from '../services/authService'
 import { useDispatch } from 'react-redux'
 import { useQuery } from '@tanstack/react-query'
 import Loader from '../compnents/Loader/Loader'
+import Notification from '../compnents/Notification/Notification'
 
 const PrivateRoute = ({ children }) => {
      const dispatch = useDispatch()
@@ -24,12 +25,13 @@ const checkAuth = async () => {
     
   }
 
-  const { isLoading } = useQuery({
+  const { isLoading, isError } = useQuery({
     queryKey: ['auth'],
     queryFn: checkAuth
   })
 
   if (isLoading) return <Loader />
+  if (isError) return <Notification text={'Користувач не авторизований'} mode='error'/>
 
   return authService.isToken ? <>{children}</> : <Navigate to='/auth' />
 }
