@@ -15,6 +15,7 @@ const PrivateRoute = ({ children }) => {
      const dispatch = useDispatch()
 
 const checkAuth = async () => {
+  try {
     const token = localStorage.getItem('token')
     if (!token) {
       return null
@@ -22,6 +23,9 @@ const checkAuth = async () => {
     const {data} = await authService.checkToken(token)
     dispatch({type: 'SET_USER', payload: data})
     return data
+  } catch (e) {
+    localStorage.removeItem('token')
+  }
     
   }
 
